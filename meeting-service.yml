@@ -1,0 +1,169 @@
+openapi: 3.0.0
+paths:
+  /v1/meetings:
+    post:
+      operationId: MeetingController_createMeeting
+      summary: Create Meeting
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMeetingDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingResponse'
+        '400':
+          description: ''
+        '404':
+          description: ''
+      tags:
+        - Meetings
+    get:
+      operationId: MeetingController_searchMeetings
+      summary: Search Meetings for a particular host
+      parameters:
+        - name: hostEmail
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MeetingResponse'
+        '400':
+          description: ''
+      tags:
+        - Meetings
+  /v1/meetings/{id}:
+    get:
+      operationId: MeetingController_GetMeeting
+      summary: Get Meeting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingResponse'
+        '404':
+          description: ''
+      tags:
+        - Meetings
+    patch:
+      operationId: MeetingController_UpdateMeeting
+      summary: Update Meeting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMeetingDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingResponse'
+        '400':
+          description: ''
+        '404':
+          description: ''
+      tags:
+        - Meetings
+    delete:
+      operationId: MeetingController_deleteMeeting
+      summary: Delete Meeting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+        - Meetings
+info:
+  title: Meeting Service
+  description: Meeting Service
+  version: '1.0'
+  contact: {}
+tags: []
+servers:
+  - url: http://localhost:3000
+components:
+  schemas:
+    CreateMeetingDto:
+      type: object
+      properties:
+        hostEmail:
+          type: string
+        name:
+          type: string
+        meetingDateTime:
+          format: date-time
+          type: string
+        attendeeEmails:
+          type: array
+          items:
+            type: string
+    MeetingResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        hostEmail:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        meetingDateTime:
+          type: string
+          readOnly: true
+        attendeeEmails:
+          readOnly: true
+          type: array
+          items:
+            type: string
+        createdTime:
+          type: string
+          readOnly: true
+        updatedTime:
+          type: string
+          readOnly: true
+      required:
+        - id
+        - hostEmail
+        - name
+        - meetingDateTime
+        - attendeeEmails
+        - createdTime
+        - updatedTime
